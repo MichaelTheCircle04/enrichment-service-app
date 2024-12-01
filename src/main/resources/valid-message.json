@@ -1,0 +1,9 @@
+{
+    "action": "button_click",
+    "page": "book_card",
+    "msisdn": "88005553535",
+    "enrichment": {
+        "firstName": "Vasya",
+        "lastName": "Ivanov"
+    }
+}

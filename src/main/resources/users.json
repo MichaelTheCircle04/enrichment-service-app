@@ -1,0 +1,45 @@
+[
+{
+    "msisdn": "88005553535",
+    "username": {
+        "firstName": "Petr",
+        "lastName": "Petrov"
+    }    
+},
+{
+    "msisdn": "88005553545",
+    "username": {
+        "firstName": "Bilbo",
+        "lastName": "Baggins"
+    }
+},
+{
+    "msisdn": "88005553555",
+    "username": {
+        "firstName": "Pavel",
+        "lastName": "Durov"
+    }
+},
+{
+    "msisdn": "88005553565",
+    "username": {
+        "firstName": "Frodo",
+        "lastName": "Baggins"
+    }
+},
+{
+    "msisdn": "88005553575",
+    "username": {
+        "firstName": "Guts",
+        "lastName": "Berserk"
+    }
+},
+{
+    "msisdn": "88005553585",
+    "username": {
+        "firstName": "Spike",
+        "lastName": "Spiegel"
+    }
+}
+
+]

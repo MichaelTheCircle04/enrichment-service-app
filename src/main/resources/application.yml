@@ -1,0 +1,5 @@
+users: src/main/resources/users.json
+messages: src/main/resources/messages.json
+spring:
+    profiles:
+        active: test, default

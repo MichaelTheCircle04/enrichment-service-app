@@ -1,0 +1,40 @@
+[
+  {
+    "action": "button_click",
+    "page": "book_card",
+    "msisdn": "88005553535",
+    "enrichment": {
+        "firstName": "Vasya",
+        "lastName": "Ivanov"
+    }
+  },
+  {
+    "action": "button_click",
+    "page": "book_card",
+    "msisdn": "88005553545",
+    "enrichment": {
+        "firstName": "Ivan",
+        "lastName": "Vasilev"
+    }
+  },
+  {
+    "action": "button_click",
+    "page": "book_card",
+    "msisdn": "88005553555"
+  },
+  {
+    "action": "button_click",
+    "page": "book_card",
+    "msisdn": "88005553565"
+  },
+  {
+    "action": "button_click",
+    "page": "book_card",
+    "msisdn": "88005553575"
+  },
+  {
+    "action": "button_click",
+    "page": "book_card",
+    "msisdn": "88005553585"
+  }
+]
