@@ -1,5 +1,11 @@
-{
+[
+  {
     "action": "button_click",
     "page": "book_card",
     "msisdn": "8900555555"
-}
+  },
+  {
+    "action": "button_click",
+    "page": "book_card"
+  }
+]

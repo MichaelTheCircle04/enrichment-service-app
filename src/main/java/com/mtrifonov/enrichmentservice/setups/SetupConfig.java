@@ -33,14 +33,17 @@ public class SetupConfig {
     
     @Value("${users}")
     private String usersLocation;
-    @Value("${messages}")
+    @Value("${messages.valid}")
     private String messagesLocation;
+    @Value("${messages.invalid}")
+    private String invalidMessagesLocation;
         
     @Bean
     public CommandLineRunner setup(UserRepository repo, MessageContainer container, ObjectMapper mapper) {
         return args -> {
             File usersSrc = new File(usersLocation);
             File messagesSrc = new File(messagesLocation);
+            File invalidMessagesSrc = new File(invalidMessagesLocation);
             
             Set<User> users = mapper.readValue(usersSrc, new TypeReference<Set<User>>(){});
             users.forEach(u -> repo.addUser(u));
@@ -49,7 +52,13 @@ public class SetupConfig {
             String rawJson = reader.lines().map(l -> l.trim()).collect(Collectors.joining());
             List<String> contents = convertToContent(rawJson.substring(1, rawJson.length() - 1));
             List<Message> messages = contents.stream().map(c -> new Message(c, EnrichmentType.MSISDN)).toList();
-            messages.forEach(m -> container.addMessage(m));
+            messages.forEach(m -> container.addValidMessage(m));
+            
+            reader = new BufferedReader(new FileReader(invalidMessagesSrc));
+            rawJson = reader.lines().map(l -> l.trim()).collect(Collectors.joining());
+            contents = convertToContent(rawJson.substring(1, rawJson.length() - 1));
+            messages = contents.stream().map(c -> new Message(c, EnrichmentType.MSISDN)).toList();
+            messages.forEach(m -> container.addInvalidMessage(m));
         };
     }
     private List<String> convertToContent(String json) {

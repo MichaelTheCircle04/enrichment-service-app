@@ -15,13 +15,22 @@ import org.springframework.stereotype.Component;
 @Profile("test")
 public class MessageContainer {
     
-    private final Set<Message> messages = new HashSet<>();
+    private final Set<Message> validMessages = new HashSet<>();
+    private final Set<Message> invalidMessages = new HashSet<>();
     
-    public void addMessage(Message message) {
-        messages.add(message);
+    public void addValidMessage(Message message) {
+        validMessages.add(message);
     }
     
-    public Set<Message> getMessages() {
-        return Collections.unmodifiableSet(messages);
+    public Set<Message> getValidMessages() {
+        return Collections.unmodifiableSet(validMessages);
+    }
+    
+    public void addInvalidMessage(Message message) {
+        invalidMessages.add(message);
+    }
+    
+    public Set<Message> getInvalidMessages() {
+        return Collections.unmodifiableSet(invalidMessages);
     }
 }

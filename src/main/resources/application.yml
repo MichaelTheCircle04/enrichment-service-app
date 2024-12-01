@@ -1,5 +1,7 @@
 users: src/main/resources/users.json
-messages: src/main/resources/messages.json
+messages:
+    valid: src/main/resources/messages.json
+    invalid: src/main/resources/invalid-messages.json
 spring:
     profiles:
         active: test, default
