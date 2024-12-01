@@ -1,4 +1,6 @@
-users: src/main/resources/users.json
+users: 
+    base: src/main/resources/users.json
+    for-update: src/main/resources/update.json
 messages:
     valid: src/main/resources/messages.json
     invalid: src/main/resources/invalid-messages.json

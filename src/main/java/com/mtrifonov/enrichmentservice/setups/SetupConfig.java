@@ -6,6 +6,7 @@ import com.mtrifonov.enrichmentservice.DomainModels.Message;
 import com.mtrifonov.enrichmentservice.DomainModels.Message.EnrichmentType;
 import com.mtrifonov.enrichmentservice.DomainModels.User;
 import com.mtrifonov.enrichmentservice.repos.MessageContainer;
+import com.mtrifonov.enrichmentservice.repos.UserContainer;
 import com.mtrifonov.enrichmentservice.repos.UserRepository;
 import java.io.BufferedReader;
 import java.io.File;
@@ -31,17 +32,20 @@ import org.springframework.context.annotation.Profile;
 @Profile("test")
 public class SetupConfig {
     
-    @Value("${users}")
+    @Value("${users.base}")
     private String usersLocation;
+    @Value("${users.for-update}")
+    private String usersForUpdateLocation;
     @Value("${messages.valid}")
     private String messagesLocation;
     @Value("${messages.invalid}")
     private String invalidMessagesLocation;
         
     @Bean
-    public CommandLineRunner setup(UserRepository repo, MessageContainer container, ObjectMapper mapper) {
+    public CommandLineRunner setup(UserRepository repo, MessageContainer container, UserContainer userContainer, ObjectMapper mapper) {
         return args -> {
             File usersSrc = new File(usersLocation);
+            File usersForUpdateSrc = new File(usersForUpdateLocation);
             File messagesSrc = new File(messagesLocation);
             File invalidMessagesSrc = new File(invalidMessagesLocation);
             
@@ -59,6 +63,9 @@ public class SetupConfig {
             contents = convertToContent(rawJson.substring(1, rawJson.length() - 1));
             messages = contents.stream().map(c -> new Message(c, EnrichmentType.MSISDN)).toList();
             messages.forEach(m -> container.addInvalidMessage(m));
+            
+            users = mapper.readValue(usersForUpdateSrc, new TypeReference<Set<User>>(){});
+            users.forEach(u -> userContainer.addUserForUpdate(u));
         };
     }
     private List<String> convertToContent(String json) {

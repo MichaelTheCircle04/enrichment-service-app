@@ -1,6 +1,7 @@
 package com.mtrifonov.enrichmentservice.repos;
 
 import com.mtrifonov.enrichmentservice.DomainModels.User;
+import com.mtrifonov.enrichmentservice.DomainModels.Username;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
@@ -32,6 +33,14 @@ public class SetUserRepoImpl implements UserRepository {
         User curUser = findByMSISDN(user.getMsisdn()).orElseThrow(() -> new NoSuchElementException("Couldn't find user with given MSISDN"));
         dataSource.remove(curUser);
         curUser.setMsisdn(newMSISDN);
+        dataSource.add(curUser);
+    }
+    
+    @Override
+    public synchronized void updateUsername(User user, Username newUsername) { //throw NoSuchElementException if couldn't find user
+        User curUser = findByMSISDN(user.getMsisdn()).orElseThrow(() -> new NoSuchElementException("Couldn't find user with given MSISDN"));
+        dataSource.remove(curUser);
+        curUser.setUsername(newUsername);
         dataSource.add(curUser);
     }
 

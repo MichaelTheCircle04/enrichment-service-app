@@ -1,6 +1,6 @@
 [
 {
-    "msisdn": "88005553535",
+    "msisdn": "+78005553535",
     "username": {
         "firstName": "Petr",
         "lastName": "Petrov"
@@ -23,8 +23,8 @@
 {
     "msisdn": "88005553565",
     "username": {
-        "firstName": "Frodo",
-        "lastName": "Baggins"
+        "firstName": "Gandalf",
+        "lastName": "Greyhame"
     }
 },
 {

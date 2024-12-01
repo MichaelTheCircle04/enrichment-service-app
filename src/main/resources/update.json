@@ -1,16 +1,16 @@
 [
 {
-    "msisdn": "88005553535",
-    "name": {
+    "msisdn": "+78005553535",
+    "username": {
         "firstName": "Faceless",
         "lastName": "Void"
     }    
 },
 {
     "msisdn": "88005553565",
-    "name": {
-        "firstName": "Kmet",
-        "lastName": "Ahmet"
+    "username": {
+        "firstName": "Gandalf",
+        "lastName": "White"
     }
 }
 ]
