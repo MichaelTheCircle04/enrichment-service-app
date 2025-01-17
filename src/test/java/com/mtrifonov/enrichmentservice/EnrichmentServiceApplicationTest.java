@@ -2,25 +2,33 @@ package com.mtrifonov.enrichmentservice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mtrifonov.enrichmentservice.DomainModels.JSONContent;
-import com.mtrifonov.enrichmentservice.DomainModels.Message;
-import com.mtrifonov.enrichmentservice.DomainModels.User;
+import com.mtrifonov.enrichmentservice.data.MessageContainer;
+import com.mtrifonov.enrichmentservice.data.UserContainer;
+import com.mtrifonov.enrichmentservice.domainmodels.JSONContent;
+import com.mtrifonov.enrichmentservice.domainmodels.Message;
+import com.mtrifonov.enrichmentservice.domainmodels.User;
 import com.mtrifonov.enrichmentservice.messagestorage.MessageStorage;
-import com.mtrifonov.enrichmentservice.repos.MessageContainer;
-import com.mtrifonov.enrichmentservice.repos.UserContainer;
 import com.mtrifonov.enrichmentservice.repos.UserRepository;
 import com.mtrifonov.enrichmentservice.validators.MessageValidator;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.RETURNS_DEFAULTS;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import org.yaml.snakeyaml.util.ArrayUtils;
 
 /**
  *
@@ -69,22 +77,33 @@ public class EnrichmentServiceApplicationTest {
     
     @Test
     @DirtiesContext
-    public void enrichmentServiceTest() {
-        List<CompletableFuture<Boolean>> futures = new ArrayList<>();
-        for (Message m : container.getValidMessages()) {
-            futures.add(CompletableFuture.supplyAsync(() -> es.enrich(new Message(m.getContent(), m.getEnrichment())), service).thenApply(s -> !s.equals(m.getContent())));
-        }
+    public void enrichmentServiceTest() throws InterruptedException, ExecutionException {
         
-        futures.forEach(f -> {
-            assertTrue(f.join());
-        }); 
+        var latch = new CountDownLatch(1);
+		var futures = container.getValidMessages().stream().map(m -> CompletableFuture.supplyAsync(() -> {
+			try {
+				latch.await();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			return es.enrich(new Message(m.getContent(), m.getEnrichment()));
+		}, service).thenApply(s -> !s.equals(m.getContent()))).toList();
+		
+		var future = CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]));
+		latch.countDown();
+		future.join();
+		
+        for (var f : futures) {
+        	var res = (CompletableFuture<Boolean>) f;
+        	assertTrue(res.get());
+        }
     }
     
     @Test 
     @DirtiesContext
     public void enrichmentServiceTestWithUserInfoChanges() throws JsonProcessingException {
         
-        List<Message> messages = container.getValidMessages().stream().filter(m -> {
+        var messages = container.getValidMessages().stream().filter(m -> {
             JSONContent content;
             try {
                 content = mapper.readValue(m.getContent(), JSONContent.class);
@@ -94,16 +113,28 @@ public class EnrichmentServiceApplicationTest {
             return (content.getMsisdn().equals("+78005553535") || content.getMsisdn().equals("88005553565"));
         }).toList();
         
-        for (User u : userContainer.getUsersForUpdate()) {
-           service.submit(() -> repo.updateUsername(u, u.getUsername()));
-        }
+        var latch = new CountDownLatch(1);
+        userContainer.getUsersForUpdate().stream().map(u -> {
+        	try {
+				latch.await();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+        	return CompletableFuture.runAsync(() -> repo.updateUsername(u, u.getUsername()), service);
+        }).close();
+                
+        var futures = messages.stream().map(m -> CompletableFuture.supplyAsync(() -> {
+        	try {
+        		latch.await();
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+        	return es.enrich(m);
+        	}, service)).toList();
         
-        List<CompletableFuture<String>> futures = new ArrayList<>();
-        for (Message m : messages) {
-            futures.add(CompletableFuture.supplyAsync(() -> es.enrich(m), service));
-        }
-        
-        CompletableFuture<Void> ready = CompletableFuture.allOf(futures.get(0), futures.get(1));
+        var ready = CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]));
+        latch.countDown();
         ready.join();
         
         for (Message m : storage.getCorrect()) {

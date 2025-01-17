@@ -1,11 +1,12 @@
-package com.mtrifonov.enrichmentservice.repos;
+package com.mtrifonov.enrichmentservice.data;
 
-import com.mtrifonov.enrichmentservice.DomainModels.User;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+
+import com.mtrifonov.enrichmentservice.domainmodels.User;
 
 /**
  *

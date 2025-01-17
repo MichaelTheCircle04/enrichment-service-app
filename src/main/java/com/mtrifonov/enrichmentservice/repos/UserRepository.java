@@ -1,9 +1,10 @@
 package com.mtrifonov.enrichmentservice.repos;
 
-import com.mtrifonov.enrichmentservice.DomainModels.User;
-import com.mtrifonov.enrichmentservice.DomainModels.Username;
 import java.util.Optional;
 import java.util.Set;
+
+import com.mtrifonov.enrichmentservice.domainmodels.User;
+import com.mtrifonov.enrichmentservice.domainmodels.Username;
 
 /**
  *

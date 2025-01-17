@@ -1,4 +1,4 @@
-package com.mtrifonov.enrichmentservice.DomainModels;
+package com.mtrifonov.enrichmentservice.domainmodels;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,14 +8,12 @@ import lombok.NoArgsConstructor;
  *
  * @Mikhail Trifonov
  */
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
-    
-    private Integer id;
+public class JSONContent {
+    private String action;
+    private String page;
     private String msisdn;
-    private String email;
-    private Username username;
+    private Username enrichment;
 }

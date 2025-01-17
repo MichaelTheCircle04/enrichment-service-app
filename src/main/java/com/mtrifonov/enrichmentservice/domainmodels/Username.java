@@ -1,4 +1,4 @@
-package com.mtrifonov.enrichmentservice.DomainModels;
+package com.mtrifonov.enrichmentservice.domainmodels;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

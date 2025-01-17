@@ -1,10 +1,10 @@
 package com.mtrifonov.enrichmentservice;
 
-import com.mtrifonov.enrichmentservice.DomainModels.JSONContent;
-import com.mtrifonov.enrichmentservice.DomainModels.Message;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mtrifonov.enrichmentservice.DomainModels.User;
+import com.mtrifonov.enrichmentservice.domainmodels.JSONContent;
+import com.mtrifonov.enrichmentservice.domainmodels.Message;
+import com.mtrifonov.enrichmentservice.domainmodels.User;
 import com.mtrifonov.enrichmentservice.messagestorage.MessageStorage;
 import com.mtrifonov.enrichmentservice.repos.UserRepository;
 import com.mtrifonov.enrichmentservice.validators.MessageValidator;

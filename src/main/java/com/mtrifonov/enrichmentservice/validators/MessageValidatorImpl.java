@@ -1,6 +1,5 @@
 package com.mtrifonov.enrichmentservice.validators;
 
-import com.mtrifonov.enrichmentservice.DomainModels.Message;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.skyscreamer.jsonassert.Customization;
@@ -9,6 +8,8 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.skyscreamer.jsonassert.RegularExpressionValueMatcher;
 import org.skyscreamer.jsonassert.comparator.CustomComparator;
 import org.springframework.stereotype.Component;
+
+import com.mtrifonov.enrichmentservice.domainmodels.Message;
 
 /**
  *

@@ -1,12 +1,10 @@
-package com.mtrifonov.enrichmentservice.setups;
+package com.mtrifonov.enrichmentservice.data;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mtrifonov.enrichmentservice.DomainModels.Message;
-import com.mtrifonov.enrichmentservice.DomainModels.Message.EnrichmentType;
-import com.mtrifonov.enrichmentservice.DomainModels.User;
-import com.mtrifonov.enrichmentservice.repos.MessageContainer;
-import com.mtrifonov.enrichmentservice.repos.UserContainer;
+import com.mtrifonov.enrichmentservice.domainmodels.Message;
+import com.mtrifonov.enrichmentservice.domainmodels.User;
+import com.mtrifonov.enrichmentservice.domainmodels.Message.EnrichmentType;
 import com.mtrifonov.enrichmentservice.repos.UserRepository;
 import java.io.BufferedReader;
 import java.io.File;

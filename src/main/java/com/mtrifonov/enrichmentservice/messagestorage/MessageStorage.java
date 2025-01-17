@@ -1,10 +1,11 @@
 package com.mtrifonov.enrichmentservice.messagestorage;
 
-import com.mtrifonov.enrichmentservice.DomainModels.Message;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
 import org.springframework.stereotype.Component;
+
+import com.mtrifonov.enrichmentservice.domainmodels.Message;
 
 /**
  *

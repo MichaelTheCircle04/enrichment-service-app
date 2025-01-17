@@ -1,6 +1,6 @@
 package com.mtrifonov.enrichmentservice.validators;
 
-import com.mtrifonov.enrichmentservice.DomainModels.Message;
+import com.mtrifonov.enrichmentservice.domainmodels.Message;
 
 /**
  *
