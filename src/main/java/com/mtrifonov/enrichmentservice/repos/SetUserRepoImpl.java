@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.springframework.stereotype.Component;
@@ -21,6 +22,7 @@ public class SetUserRepoImpl implements UserRepository {
     
     private final Set<User> dataSource = new HashSet<>();
     private final ReentrantLock lock = new ReentrantLock(true);
+    private final AtomicInteger seq = new AtomicInteger(1);
 
     @Override
     public Optional<User> findByMSISDN(String MSISDN) {  
@@ -44,7 +46,7 @@ public class SetUserRepoImpl implements UserRepository {
         	dataSource.remove(curUser);
             curUser.setMsisdn(newMSISDN);
             dataSource.add(curUser);
-        } catch(NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
         	throw e;
         } finally {
         	lock.unlock();
@@ -61,7 +63,7 @@ public class SetUserRepoImpl implements UserRepository {
     		dataSource.remove(curUser);
     		curUser.setUsername(newUsername);
     		dataSource.add(curUser);
-    	} catch(NoSuchElementException e) {
+    	} catch (NoSuchElementException e) {
         	throw e;
     	} finally {
     		lock.unlock();
@@ -78,6 +80,7 @@ public class SetUserRepoImpl implements UserRepository {
     	lock.lock();
     	
     	try {
+    		user.setId(seq.getAndIncrement());
     		dataSource.add(user);
     	} finally {
     		lock.unlock();

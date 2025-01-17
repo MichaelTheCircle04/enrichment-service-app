@@ -6,29 +6,22 @@ import com.mtrifonov.enrichmentservice.data.MessageContainer;
 import com.mtrifonov.enrichmentservice.data.UserContainer;
 import com.mtrifonov.enrichmentservice.domainmodels.JSONContent;
 import com.mtrifonov.enrichmentservice.domainmodels.Message;
-import com.mtrifonov.enrichmentservice.domainmodels.User;
 import com.mtrifonov.enrichmentservice.messagestorage.MessageStorage;
 import com.mtrifonov.enrichmentservice.repos.UserRepository;
 import com.mtrifonov.enrichmentservice.validators.MessageValidator;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.RETURNS_DEFAULTS;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.yaml.snakeyaml.util.ArrayUtils;
 
 /**
  *
